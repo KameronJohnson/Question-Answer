@@ -1,15 +1,18 @@
 'use strict';
 
-const express = require('express');
-const app = express();
-const jsonParser = require('body-parser');
+var express = require('express');
+var jsonParser = require('body-parser').json;
+var app = express();
+var routes = require('./routes');
 
-const port = process.env.PORT || 3000;
+var port = process.env.PORT || 3000;
 
-app.use(function(req, res, next) {
-    console.log("Hello Middleware");
-    next();
-});
+//when app gets request, this middleware will
+//parse the request's body as json, and make it accessible
+// from the request's body property
+app.use(jsonParser());
+
+app.use("/questions", routes);
 
 //start server
 app.listen(port, function() {
